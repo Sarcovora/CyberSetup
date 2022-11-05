@@ -12,9 +12,8 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Move files to correct directories
-cp -rf ./dotfiles/* ~/.config
+cp -rf ./dotfiles/* ~/.config/
 echo 'eval "$(starship init bash)"' >> ~/.bashrc
 
 # Further instructions
-echo -e ${BBlue}"\n[*] Installing necessary packages..." ${Color_Off}
 echo -e ${BYellow}"[*] Run :PlugInstall in nvim" ${Color_Off}
