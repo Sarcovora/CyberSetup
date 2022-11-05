@@ -46,7 +46,7 @@ cp /etc/passwd ~/Desktop/backups/
 
 printTime "/etc/group and /etc/passwd files backed up."
 
---------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------
 echo Type all user account names, with a space in between
 read -a users
 
@@ -122,7 +122,7 @@ do
 	printTime "${usersNew[${i}]}'s password has been given a maximum age of 30 days, minimum of 3 days, and warning of 7 days. ${users[${i}]}'s account has been locked."
 done
 
------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------
 
 
 
