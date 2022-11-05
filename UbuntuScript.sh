@@ -114,8 +114,8 @@ do
 		printTime "${usersNew[${i}]} has been made a standard user."
 	fi
 	
-	echo -e "CyberPatriotIsCool123!\nCyberPatriotIsCool123!" | passwd ${usersNew[${i}]}
-	printTime "${usersNew[${i}]} has been given the password 'CyberPatriotIsCool123!'."
+	echo -e "CyberPatriot123!\nCyberPatriot123!" | passwd ${usersNew[${i}]}
+	printTime "${usersNew[${i}]} has been given the password 'CyberPatriot123!'."
 
 	passwd -x90 -n10 -w7 ${usersNew[${i}]}
 	usermod -L ${usersNew[${i}]}
