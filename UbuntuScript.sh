@@ -46,9 +46,105 @@ cp /etc/passwd ~/Desktop/backups/
 
 printTime "/etc/group and /etc/passwd files backed up."
 
+--------------------------------------------------------------------------------------------------------------
+echo Type all user account names, with a space in between
+read -a users
+
+usersLength=${#users[@]}
+
+for (( i=0;i<$usersLength;i++))
+do
+	
+	echo ${users[${i}]}
+	echo Delete ${users[${i}]}? yes or no
+	read yn1
+	if [ $yn1 == yes ]
+	then
+		userdel -r ${users[${i}]}
+		printTime "${users[${i}]} has been deleted."
+	else	
+		echo Make ${users[${i}]} administrator? yes or no
+		read yn2								
+		if [ $yn2 == yes ]
+		then
+			gpasswd -a ${users[${i}]} sudo
+			gpasswd -a ${users[${i}]} adm
+			gpasswd -a ${users[${i}]} lpadmin
+			gpasswd -a ${users[${i}]} sambashare
+			printTime "${users[${i}]} has been made an administrator."
+		else
+			gpasswd -d ${users[${i}]} sudo
+			gpasswd -d ${users[${i}]} adm
+			gpasswd -d ${users[${i}]} lpadmin
+			gpasswd -d ${users[${i}]} sambashare
+			gpasswd -d ${users[${i}]} root
+			printTime "${users[${i}]} has been made a standard user."
+		fi
+			
+		echo -e "CyberPatriotIsCool123!\nCyberPatriotIsCool123!" | passwd ${users[${i}]}
+		printTime "${users[${i}]} has been given the password 'CyberPatriotIsCool123!'."
+		
+		passwd -x90 -n10 -w7 ${users[${i}]}
+		usermod -L ${users[${i}]}
+		printTime "${users[${i}]}'s password has been given a maximum age of 90 days, minimum of 10 days, and warning of 7 days. ${users[${i}]}'s account has been locked."
+	fi
+done
+
+
+echo Type user account names of users you want to add, with a space in between
+read -a usersNew
+
+usersNewLength=${#usersNew[@]}	
+
+for (( i=0;i<$usersNewLength;i++))
+do
+	echo ${usersNew[${i}]}
+	adduser ${usersNew[${i}]}
+	printTime "A user account for ${usersNew[${i}]} has been created."
+	echo Make ${usersNew[${i}]} administrator? yes or no
+	read ynNew								
+	if [ $ynNew == yes ]
+	then
+		gpasswd -a ${usersNew[${i}]} sudo
+		gpasswd -a ${usersNew[${i}]} adm
+		gpasswd -a ${usersNew[${i}]} lpadmin
+		gpasswd -a ${usersNew[${i}]} sambashare
+		printTime "${usersNew[${i}]} has been made an administrator."
+	else
+		printTime "${usersNew[${i}]} has been made a standard user."
+	fi
+	
+	echo -e "CyberPatriotIsCool123!\nCyberPatriotIsCool123!" | passwd ${usersNew[${i}]}
+	printTime "${usersNew[${i}]} has been given the password 'CyberPatriotIsCool123!'."
+
+	passwd -x90 -n10 -w7 ${usersNew[${i}]}
+	usermod -L ${usersNew[${i}]}
+	printTime "${usersNew[${i}]}'s password has been given a maximum age of 30 days, minimum of 3 days, and warning of 7 days. ${users[${i}]}'s account has been locked."
+done
+
+-----------------------------------------------------------------------------------------
+
+
+
 #install firewall
+apt-get install ufw -y -qq
 ufw enable
+ufw deny 1337
 printTime "Firewall enabled."
+
+chmod 777 /etc/apt/apt.conf.d/10periodic
+cp /etc/apt/apt.conf.d/10periodic ~/Desktop/backups/
+echo -e "APT::Periodic::Update-Package-Lists \"1\";\nAPT::Periodic::Download-Upgradeable-Packages \"1\";\nAPT::Periodic::AutocleanInterval \"1\";\nAPT::Periodic::Unattended-Upgrade \"1\";" > /etc/apt/apt.conf.d/10periodic
+chmod 644 /etc/apt/apt.conf.d/10periodic
+printTime "Daily update checks, download upgradeable packages, autoclean interval, and unattended upgrade enabled."
+
+# echo "Check to verify that all update settings are correct."
+# update-manager
+
+apt-get update -qq
+apt-get upgrade -qq
+apt-get dist-upgrade -qq
+printTime "Ubuntu OS has checked for updates and has been upgraded."
 
 # find / -name "*.midi" -type f >> ~/Desktop/Script.log
 # find / -name "*.mid" -type f >> ~/Desktop/Script.log
@@ -232,20 +328,6 @@ printTime "VNC has been removed."
 
 apt-get purge snmp -y -qq
 printTime "SNMP has been removed."
-
-chmod 777 /etc/apt/apt.conf.d/10periodic
-cp /etc/apt/apt.conf.d/10periodic ~/Desktop/backups/
-echo -e "APT::Periodic::Update-Package-Lists \"1\";\nAPT::Periodic::Download-Upgradeable-Packages \"1\";\nAPT::Periodic::AutocleanInterval \"1\";\nAPT::Periodic::Unattended-Upgrade \"1\";" > /etc/apt/apt.conf.d/10periodic
-chmod 644 /etc/apt/apt.conf.d/10periodic
-printTime "Daily update checks, download upgradeable packages, autoclean interval, and unattended upgrade enabled."
-
-echo "Check to verify that all update settings are correct."
-update-manager
-
-apt-get update -qq
-apt-get upgrade -qq
-apt-get dist-upgrade -qq
-printTime "Ubuntu OS has checked for updates and has been upgraded."
 
 apt-get upgrade openssl libssl-dev
 apt-cache policy openssl libssl-dev
