@@ -47,7 +47,7 @@ cp /etc/passwd ~/Desktop/backups/
 printTime "/etc/group and /etc/passwd files backed up."
 
 # --------------------------------------------------------------------------------------------------------------
-echo Type all user account names, with a space in between
+echo Type all user account names (everyone but you), with a space in between
 read -a users
 
 usersLength=${#users[@]}
