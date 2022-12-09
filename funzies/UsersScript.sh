@@ -23,7 +23,7 @@ do
 	if [ $yn1 == yes ]
 	then
 		userdel -r ${users[${i}]}
-		printTime "${users[${i}]} has been deleted."
+		echo "${users[${i}]} has been deleted."
 	else	
 		echo Make ${users[${i}]} administrator? yes or no
 		read yn2								
@@ -33,22 +33,22 @@ do
 			gpasswd -a ${users[${i}]} adm
 			gpasswd -a ${users[${i}]} lpadmin
 			gpasswd -a ${users[${i}]} sambashare
-			printTime "${users[${i}]} has been made an administrator."
+			echo "${users[${i}]} has been made an administrator."
 		else
 			gpasswd -d ${users[${i}]} sudo
 			gpasswd -d ${users[${i}]} adm
 			gpasswd -d ${users[${i}]} lpadmin
 			gpasswd -d ${users[${i}]} sambashare
 			gpasswd -d ${users[${i}]} root
-			printTime "${users[${i}]} has been made a standard user."
+			echo "${users[${i}]} has been made a standard user."
 		fi
 			
 		echo -e "CyberPatriotIsCool123!\nCyberPatriotIsCool123!" | passwd ${users[${i}]}
-		printTime "${users[${i}]} has been given the password 'CyberPatriotIsCool123!'."
+		echo "${users[${i}]} has been given the password 'CyberPatriotIsCool123!'."
 		
 		passwd -x90 -n10 -w7 ${users[${i}]}
 		usermod -L ${users[${i}]}
-		printTime "${users[${i}]}'s password has been given a maximum age of 90 days, minimum of 10 days, and warning of 7 days. ${users[${i}]}'s account has been locked."
+		echo "${users[${i}]}'s password has been given a maximum age of 90 days, minimum of 10 days, and warning of 7 days. ${users[${i}]}'s account has been locked."
 	fi
 done
 
@@ -62,7 +62,7 @@ for (( i=0;i<$usersNewLength;i++))
 do
 	echo ${usersNew[${i}]}
 	adduser ${usersNew[${i}]}
-	printTime "A user account for ${usersNew[${i}]} has been created."
+	echo "A user account for ${usersNew[${i}]} has been created."
 	echo Make ${usersNew[${i}]} administrator? yes or no
 	read ynNew								
 	if [ $ynNew == yes ]
@@ -71,17 +71,17 @@ do
 		gpasswd -a ${usersNew[${i}]} adm
 		gpasswd -a ${usersNew[${i}]} lpadmin
 		gpasswd -a ${usersNew[${i}]} sambashare
-		printTime "${usersNew[${i}]} has been made an administrator."
+		echo "${usersNew[${i}]} has been made an administrator."
 	else
-		printTime "${usersNew[${i}]} has been made a standard user."
+		echo "${usersNew[${i}]} has been made a standard user."
 	fi
 	
 	echo -e "CyberPatriot123!\nCyberPatriot123!" | passwd ${usersNew[${i}]}
-	printTime "${usersNew[${i}]} has been given the password 'CyberPatriot123!'."
+	echo "${usersNew[${i}]} has been given the password 'CyberPatriot123!'."
 
 	passwd -x90 -n10 -w7 ${usersNew[${i}]}
 	usermod -L ${usersNew[${i}]}
-	printTime "${usersNew[${i}]}'s password has been given a maximum age of 30 days, minimum of 3 days, and warning of 7 days. ${users[${i}]}'s account has been locked."
+	echo "${usersNew[${i}]}'s password has been given a maximum age of 30 days, minimum of 3 days, and warning of 7 days. ${users[${i}]}'s account has been locked."
 done
 
 # -----------------------------------------------------------------------------------------
